@@ -12,7 +12,7 @@ st.title('Luxmii Order Extractor - PDF Rename')
 
 with st.form(key='my_form'):
     file_uploaded = st.file_uploader("Upload")
-    submit_button=st.form_submit_button('Login')
+    submit_button=st.form_submit_button('Submit')
 
 
 
