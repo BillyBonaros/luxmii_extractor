@@ -28,7 +28,7 @@ if submit_button:
         text = ""
         for page in reader.pages:
             text += page.extract_text() + "\n"
-        out=re.findall('Order No.:\n\#(\d+)',text)[0]
+        out=re.findall('Order No.:\n\#*(\d+)',text)[0]
         os.rename(inp, f'extracted/{out}.pdf')
 
 
