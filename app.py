@@ -21,6 +21,7 @@ if submit_button:
         zip_ref.extractall("extracted")
 
     files=os.listdir('extracted')
+    files=[i for i in files if 'pdf' in i]
     for i in files:
         inp=f"extracted/{i}"
         
