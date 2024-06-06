@@ -18,29 +18,33 @@ with st.form(key='my_form'):
 
 if submit_button:
     with zipfile.ZipFile(file_uploaded, 'r') as zip_ref:
-        zip_ref.extractall("extracted")
+        zip_ref.extractall()
+        
+    fname=zip_ref.filename.split('.')[0]
+    
+    files=os.listdir(fname)
 
-    files=os.listdir('extracted')
+        
     files=[i for i in files if 'pdf' in i]
     for i in files:
-        inp=f"extracted/{i}"
+        inp=f"{fname}/{i}"
         
         reader = PdfReader(inp)
         text = ""
         for page in reader.pages:
             text += page.extract_text() + "\n"
         out=re.findall('Order No.:\n\#*(\d+)',text)[0]
-        os.rename(inp, f'extracted/{out}.pdf')
+        os.rename(inp, f'{fname}/{out}.pdf')
 
 
     fp_zip = Path("output.zip")
-    path_to_archive = Path("./extracted")
+    path_to_archive = Path(f"./{fname}")
 
     with zipfile.ZipFile(fp_zip, "w", zipfile.ZIP_DEFLATED) as zipf:
         for fp in path_to_archive.glob("**/*"):
             zipf.write(fp, arcname=fp.relative_to(path_to_archive))
 
-    shutil.rmtree('extracted')
+    shutil.rmtree(f'{fname}')
 
     with open("output.zip", "rb") as fp:
         btn = st.download_button(
@@ -49,5 +53,3 @@ if submit_button:
             file_name="output.zip",
             mime="application/zip"
         )
-
-        
